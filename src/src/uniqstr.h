@@ -1,6 +1,6 @@
 /* Keeping a unique copy of strings.
 
-   Copyright (C) 2002-2003, 2008-2012 Free Software Foundation, Inc.
+   Copyright (C) 2002-2003, 2008-2015 Free Software Foundation, Inc.
 
    This file is part of Bison, the GNU Compiler Compiler.
 
@@ -20,6 +20,8 @@
 #ifndef UNIQSTR_H_
 # define UNIQSTR_H_
 
+# include <stdio.h>
+
 /*-----------------------------------------.
 | Pointers to unique copies of C strings.  |
 `-----------------------------------------*/
@@ -33,30 +35,17 @@ uniqstr uniqstr_new (char const *str);
    strings, use UNIQSTR_CONCAT, which is a convenient wrapper around
    this function.  */
 uniqstr uniqstr_vsprintf (char const *format, ...)
-  __attribute__ ((__format__ (__printf__, 1, 2)));
+  _GL_ATTRIBUTE_FORMAT_PRINTF (1, 2);
 
 /* Two uniqstr values have the same value iff they are the same.  */
-#define UNIQSTR_EQ(USTR1, USTR2) (!!((USTR1) == (USTR2)))
+# define UNIQSTR_EQ(Ustr1, Ustr2) (!!((Ustr1) == (Ustr2)))
 
 /* Compare two uniqstr a la strcmp: negative for <, nul for =, and
    positive for >.  Undefined order, relies on addresses.  */
-#define UNIQSTR_CMP(USTR1, USTR2) ((USTR1) - (USTR2))
-
-/*--------------------------------------.
-| Initializing, destroying, debugging.  |
-`--------------------------------------*/
-
-/* Create the string table.  */
-void uniqstrs_new (void);
+int uniqstr_cmp (uniqstr u1, uniqstr u2);
 
 /* Die if STR is not a uniqstr.  */
 void uniqstr_assert (char const *str);
-
-/* Free all the memory allocated for symbols.  */
-void uniqstrs_free (void);
-
-/* Report them all.  */
-void uniqstrs_print (void);
 
 /*----------------.
 | Concatenation.  |
@@ -69,30 +58,43 @@ void uniqstrs_print (void);
    checking.  Unfortunately, because of the missing format string in the
    macro invocation, the argument number reported by gcc for a bad
    argument type is 1 too large.  */
-#define UNIQSTR_CONCAT(...)                                            \
-  uniqstr_vsprintf (UNIQSTR_GEN_FORMAT (__VA_ARGS__,                   \
-                                        "%s", "%s", "%s", "%s", "%s",  \
-                                        "%s", "%s", "%s", "%s", "%s",  \
-                                        "%s", "%s", "%s", "%s", "%s",  \
-                                        "%s", "%s", "%s", "%s", "%s"), \
+# define UNIQSTR_CONCAT(...)                                            \
+  uniqstr_vsprintf (UNIQSTR_GEN_FORMAT (__VA_ARGS__,                    \
+                                        "%s", "%s", "%s", "%s", "%s",   \
+                                        "%s", "%s", "%s", "%s", "%s",   \
+                                        "%s", "%s", "%s", "%s", "%s",   \
+                                        "%s", "%s", "%s", "%s", "%s"),  \
                     __VA_ARGS__)
 
-#define UNIQSTR_GEN_FORMAT(F1,  F2,  F3,  F4,  F5,  \
-                           F6,  F7,  F8,  F9,  F10, \
-                           F11, F12, F13, F14, F15, \
-                           F16, F17, F18, F19, F20, \
-                           ...)                     \
-  UNIQSTR_GEN_FORMAT_ (__VA_ARGS__,                 \
-                       "", "", "", "", "",          \
-                       "", "", "", "", "",          \
-                       "", "", "", "", "",          \
+# define UNIQSTR_GEN_FORMAT(F1,  F2,  F3,  F4,  F5,     \
+                           F6,  F7,  F8,  F9,  F10,     \
+                           F11, F12, F13, F14, F15,     \
+                           F16, F17, F18, F19, F20,     \
+                           ...)                         \
+  UNIQSTR_GEN_FORMAT_ (__VA_ARGS__,                     \
+                       "", "", "", "", "",              \
+                       "", "", "", "", "",              \
+                       "", "", "", "", "",              \
                        "", "", "", "", "")
 
-#define UNIQSTR_GEN_FORMAT_(F1,  F2,  F3,  F4,  F5,       \
-                            F6,  F7,  F8,  F9,  F10,      \
-                            F11, F12, F13, F14, F15,      \
-                            F16, F17, F18, F19, F20, ...) \
-  F1  F2  F3  F4  F5  F6  F7  F8  F9  F10                 \
+# define UNIQSTR_GEN_FORMAT_(F1,  F2,  F3,  F4,  F5,            \
+                            F6,  F7,  F8,  F9,  F10,            \
+                            F11, F12, F13, F14, F15,            \
+                            F16, F17, F18, F19, F20, ...)       \
+  F1  F2  F3  F4  F5  F6  F7  F8  F9  F10                       \
   F11 F12 F13 F14 F15 F16 F17 F18 F19 F20
+
+/*--------------------.
+| Table of uniqstrs.  |
+`--------------------*/
+
+/* Create the string table.  */
+void uniqstrs_new (void);
+
+/* Free all the memory allocated for symbols.  */
+void uniqstrs_free (void);
+
+/* Report them all.  */
+void uniqstrs_print (void);
 
 #endif /* ! defined UNIQSTR_H_ */

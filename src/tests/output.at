@@ -1,6 +1,6 @@
 # Checking the output filenames.                    -*- Autotest -*-
 
-# Copyright (C) 2000-2002, 2005-2012 Free Software Foundation, Inc.
+# Copyright (C) 2000-2002, 2005-2015 Free Software Foundation, Inc.
 
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -17,90 +17,121 @@
 
 AT_BANNER([[Output file names.]])
 
+# AT_CHECK_FILES(EXPECTED-FILES, [IGNORED-FILES])
+# -----------------------------------------------
+# Check that the current directory contains FILE... (sorted).
+m4_define([AT_CHECK_FILES],
+[AT_CHECK([[find . -type f |
+           $PERL -ne '
+      s,\./,,; chomp;
+      push @file, $_ unless m{^($2|testsuite.log)$};
+      END { print join (" ", sort @file), "\n" }']],
+          [], [$1
+])])
 
-# AT_CHECK_OUTPUT(INPUT-FILE, [DIRECTIVES], [FLAGS], EXPECTED-FILES, [SHELLIO],
+# AT_CHECK_OUTPUT(INPUT-FILE, [DIRECTIVES], [FLAGS], EXPECTED-FILES, [STATUS],
 #                 [ADDITIONAL-TESTS], [PRE-TESTS])
 # -----------------------------------------------------------------------------
 m4_define([AT_CHECK_OUTPUT],
-[AT_SETUP([[Output files: $2 $3 $5]])
-$7
-for file in $1 $4; do
-  case "$file" in
-    */*) mkdir -p `echo "$file" | sed 's,/.*,,'`;;
+[AT_SETUP([[Output files: ]$2 $3])[
+]$7[
+for file in ]$1 $4[; do
+  case $file in
+    */*) mkdir -p `echo "$file" | sed 's,/[^/]*,,'`;;
   esac
 done
-AT_DATA([$1],
-[[$2
+]AT_DATA([$1],
+[$2[
 %%
-foo: {};
+foo: %empty {};
+]])[
+
+]AT_BISON_CHECK([$3 $1], [$5], [], [ignore])[
+# Ignore the files non-generated files
+]AT_CHECK_FILES([$4], [$1])[
+]$6[
+]AT_CLEANUP[
 ]])
 
-AT_BISON_CHECK([$3 $1 $5], 0)
-AT_CHECK([ls $4], [], [ignore])
-$6
-AT_CLEANUP
-])
-
 AT_CHECK_OUTPUT([foo.y], [], [-dv],
-		[foo.output foo.tab.c foo.tab.h])
+                [foo.output foo.tab.c foo.tab.h])
 
 # Some versions of Valgrind (at least valgrind-3.6.0.SVN-Debian) report
 # "fgrep: write error: Bad file descriptor" when stdout is closed, so we
 # skip this test group during maintainer-check-valgrind.
-AT_CHECK_OUTPUT([foo.y], [], [-dv],
-		[foo.output foo.tab.c foo.tab.h],
-		[>&-], [],
-		[AT_CHECK([[case "$PREBISON" in *valgrind*) exit 77;; esac]])])
+AT_CHECK_OUTPUT([foo.y], [], [-dv >&-],
+                [foo.output foo.tab.c foo.tab.h],
+                [], [],
+                [AT_CHECK([[case "$PREBISON" in *valgrind*) exit 77;; esac]])])
 
 AT_CHECK_OUTPUT([foo.y], [], [-dv -o foo.c],
-		[foo.c foo.h foo.output])
+                [foo.c foo.h foo.output])
 AT_CHECK_OUTPUT([foo.y], [], [-dv -o foo.tab.c],
-		[foo.output foo.tab.c foo.tab.h])
-AT_CHECK_OUTPUT([foo.y], [], [-dv -y],
-		[y.output y.tab.c y.tab.h])
+                [foo.output foo.tab.c foo.tab.h])
+
+AT_CHECK_OUTPUT([foo.y], [], [-dv -g --xml -y],
+                [y.dot y.output y.tab.c y.tab.h y.xml])
+# With '-o y.tab.c', we expect 'y.output' etc. (for compatility with Yacc).
+AT_CHECK_OUTPUT([foo.y], [], [-dv -g --xml -o y.tab.c],
+                [y.dot y.output y.tab.c y.tab.h y.xml])
+
 AT_CHECK_OUTPUT([foo.y], [], [-dv -b bar],
-		[bar.output bar.tab.c bar.tab.h])
+                [bar.output bar.tab.c bar.tab.h])
 AT_CHECK_OUTPUT([foo.y], [], [-dv -g -o foo.c],
-		[foo.c foo.dot foo.h foo.output])
+                [foo.c foo.dot foo.h foo.output])
 
 
 AT_CHECK_OUTPUT([foo.y], [%defines %verbose],      [],
-		[foo.output foo.tab.c foo.tab.h])
+                [foo.output foo.tab.c foo.tab.h])
 AT_CHECK_OUTPUT([foo.y], [%defines %verbose %yacc],[],
-		[y.output y.tab.c y.tab.h])
+                [y.output y.tab.c y.tab.h])
 
 AT_CHECK_OUTPUT([foo.yy], [%defines %verbose %yacc],[],
-		[y.output y.tab.c y.tab.h])
+                [y.output y.tab.c y.tab.h])
 
 # Exercise %output and %file-prefix including deprecated '='
 AT_CHECK_OUTPUT([foo.y], [%file-prefix "bar" %defines %verbose],      [],
-		[bar.output bar.tab.c bar.tab.h])
-AT_CHECK_OUTPUT([foo.y], [%output="bar.c" %defines %verbose %yacc],[],
-		[bar.output bar.c bar.h])
+                [bar.output bar.tab.c bar.tab.h])
+AT_CHECK_OUTPUT([foo.y], [%output "bar.c" %defines %verbose %yacc],[],
+                [bar.c bar.h bar.output])
 AT_CHECK_OUTPUT([foo.y],
-		[%file-prefix="baz" %output "bar.c" %defines %verbose %yacc],
-		[],
-		[bar.output bar.c bar.h])
+                [%file-prefix "baz" %output "bar.c" %defines %verbose %yacc],
+                [],
+                [bar.c bar.h bar.output])
 
 
 # Check priorities of extension control.
 AT_CHECK_OUTPUT([foo.yy], [%defines %verbose], [],
-		[foo.output foo.tab.cc foo.tab.hh])
+                [foo.output foo.tab.cc foo.tab.hh])
 
 AT_CHECK_OUTPUT([foo.yy], [%defines %verbose ], [-o foo.c],
-		[foo.c foo.h foo.output])
+                [foo.c foo.h foo.output])
 
 AT_CHECK_OUTPUT([foo.yy], [],
-		[--defines=foo.hpp -o foo.c++],
-		[foo.c++ foo.hpp])
+                [--defines=foo.hpp -o foo.c++],
+                [foo.c++ foo.hpp])
 
 AT_CHECK_OUTPUT([foo.yy], [%defines "foo.hpp"],
-		[-o foo.c++],
-		[foo.c++ foo.hpp])
+                [-o foo.c++],
+                [foo.c++ foo.hpp])
 
 AT_CHECK_OUTPUT([foo.yy], [],
-		[-o foo.c++ --graph=foo.gph],
-		[foo.c++ foo.gph])
+                [-o foo.c++ --graph=foo.gph],
+                [foo.c++ foo.gph])
+
+# Do not generate code when there are early errors (even warnings as
+# errors).
+AT_CHECK_OUTPUT([foo.y], [%type <foo> useless],
+                [--defines --graph --xml --report=all -Wall -Werror],
+                [foo.dot foo.output foo.xml],
+                [1])
+
+# Do not generate code when there are late errors (even warnings as
+# errors).
+AT_CHECK_OUTPUT([foo.y], [%define useless],
+                [--defines --graph --xml --report=all -Wall -Werror],
+                [foo.dot foo.output foo.xml],
+                [1])
 
 
 ## ------------ ##
@@ -113,22 +144,36 @@ AT_CHECK([grep 'include .subdir/' $1.cc], 1, [])
 AT_CHECK([grep 'include .subdir/' $1.hh], 1, [])
 ])
 
+AT_CHECK_OUTPUT([foo.yy], [%skeleton "lalr1.cc" %verbose], [],
+                [foo.output foo.tab.cc])
+
 AT_CHECK_OUTPUT([foo.yy], [%skeleton "lalr1.cc" %defines %verbose], [],
-		[foo.tab.cc foo.tab.hh foo.output location.hh stack.hh position.hh])
+                [foo.output foo.tab.cc foo.tab.hh stack.hh])
+
+AT_CHECK_OUTPUT([foo.yy], [%skeleton "lalr1.cc" %verbose %locations], [],
+                [foo.output foo.tab.cc])
+
+AT_CHECK_OUTPUT([foo.yy], [%skeleton "lalr1.cc" %defines %verbose %locations], [],
+                [foo.output foo.tab.cc foo.tab.hh location.hh position.hh stack.hh])
 
 AT_CHECK_OUTPUT([subdir/foo.yy], [%skeleton "lalr1.cc" %defines %verbose], [],
-		[foo.tab.cc foo.tab.hh foo.output location.hh stack.hh position.hh],
-		[], [AT_CHECK_NO_SUBDIR_PART([foo.tab])])
+                [foo.output foo.tab.cc foo.tab.hh stack.hh],
+                [], [AT_CHECK_NO_SUBDIR_PART([foo.tab])])
 
-AT_CHECK_OUTPUT([subdir/foo.yy], [%skeleton "lalr1.cc" %defines %verbose],
-		[-o subdir/foo.cc],
-		[subdir/foo.cc subdir/foo.hh subdir/foo.output subdir/location.hh subdir/stack.hh subdir/position.hh],
-		[], [AT_CHECK_NO_SUBDIR_PART([subdir/foo])])
+AT_CHECK_OUTPUT([subdir/foo.yy], [%skeleton "lalr1.cc" %defines %verbose %locations],
+                [-o subdir/foo.cc],
+                [subdir/foo.cc subdir/foo.hh subdir/foo.output subdir/location.hh subdir/position.hh subdir/stack.hh],
+                [], [AT_CHECK_NO_SUBDIR_PART([subdir/foo])])
 
 AT_CHECK_OUTPUT([gram_dir/foo.yy],
                 [%skeleton "lalr1.cc" %defines %verbose %file-prefix "output_dir/foo"],
                 [],
-		[output_dir/foo.tab.cc output_dir/foo.tab.hh output_dir/foo.output output_dir/location.hh output_dir/stack.hh output_dir/position.hh])
+                [output_dir/foo.output output_dir/foo.tab.cc output_dir/foo.tab.hh output_dir/stack.hh])
+
+AT_CHECK_OUTPUT([gram_dir/foo.yy],
+                [%skeleton "lalr1.cc" %defines %locations %verbose %file-prefix "output_dir/foo"],
+                [],
+                [output_dir/foo.output output_dir/foo.tab.cc output_dir/foo.tab.hh output_dir/location.hh output_dir/position.hh output_dir/stack.hh])
 
 
 # AT_CHECK_CONFLICTING_OUTPUT(INPUT-FILE, DIRECTIVES, FLAGS, STDERR,
@@ -157,22 +202,22 @@ AT_CLEANUP
 
 AT_CHECK_CONFLICTING_OUTPUT([foo.y],
 [], [--graph="foo.tab.c"],
-[foo.y: warning: conflicting outputs to file 'foo.tab.c'
-])
+[[foo.y: warning: conflicting outputs to file 'foo.tab.c' [-Wother]
+]])
 
 AT_CHECK_CONFLICTING_OUTPUT([foo.y],
 [%defines "foo.output"], [-v],
-[foo.y: warning: conflicting outputs to file 'foo.output'
-])
+[[foo.y: warning: conflicting outputs to file 'foo.output' [-Wother]
+]])
 
 AT_CHECK_CONFLICTING_OUTPUT([foo.y],
-[%skeleton "lalr1.cc" %defines], [--graph="location.hh"],
-[foo.y: warning: conflicting outputs to file 'location.hh'
-])
+[%skeleton "lalr1.cc" %defines %locations], [--graph="location.hh"],
+[[foo.y: warning: conflicting outputs to file 'location.hh' [-Wother]
+]])
 
 AT_CHECK_CONFLICTING_OUTPUT([foo.y], [], [-o foo.y],
-[foo.y: error: refusing to overwrite the input file 'foo.y'
-], 1)
+[[foo.y: error: refusing to overwrite the input file 'foo.y'
+]], 1)
 
 
 # AT_CHECK_OUTPUT_FILE_NAME(FILE-NAME-PREFIX, [ADDITIONAL-TESTS])
@@ -205,9 +250,9 @@ AT_DATA_GRAMMAR([cxx.y],
 %%
 start: {};
 ]])
-AT_BISON_CHECK([-o "AS_ESCAPE([$1.c])" --defines="AS_ESCAPE([$1.h])" cxx.y])
-AT_CHECK([ls "AS_ESCAPE([$1.c])" "AS_ESCAPE([$1.h])"], [], [ignore])
-AT_COMPILE_CXX([cxx.o], [-c "AS_ESCAPE([$1.c])"])
+AT_BISON_CHECK([-o "AS_ESCAPE([$1.cc])" --defines="AS_ESCAPE([$1.hh])" cxx.y])
+AT_CHECK([ls "AS_ESCAPE([$1.cc])" "AS_ESCAPE([$1.hh])"], [], [ignore])
+AT_COMPILE_CXX([cxx.o], [-c "AS_ESCAPE([$1.cc])"])
 $2
 
 AT_BISON_OPTION_POPDEFS
@@ -264,7 +309,7 @@ a: ;
 b: 'b';
 ]],
 [[
-  0 [label="State 0\n\l  0 $accept: . exp $end\l  1 exp: . a '?' b\l  2 a: .\l"]
+  0 [label="State 0\n\l  0 $accept: . exp $end\l  1 exp: . a '?' b\l  2 a: . %empty\l"]
   0 -> 1 [style=dashed label="exp"]
   0 -> 2 [style=dashed label="a"]
   0 -> "0R2" [style=solid]
@@ -306,7 +351,7 @@ empty_b: %prec 'b';
 empty_c: %prec 'c';
 ]],
 [[
-  0 [label="State 0\n\l  0 $accept: . start $end\l  1 start: . 'a'\l  2      | . empty_a 'a'\l  3      | . 'b'\l  4      | . empty_b 'b'\l  5      | . 'c'\l  6      | . empty_c 'c'\l  7 empty_a: .  ['a']\l  8 empty_b: .  ['b']\l  9 empty_c: .  ['c']\l"]
+  0 [label="State 0\n\l  0 $accept: . start $end\l  1 start: . 'a'\l  2      | . empty_a 'a'\l  3      | . 'b'\l  4      | . empty_b 'b'\l  5      | . 'c'\l  6      | . empty_c 'c'\l  7 empty_a: . %empty  ['a']\l  8 empty_b: . %empty  ['b']\l  9 empty_c: . %empty  ['c']\l"]
   0 -> 1 [style=solid label="'a'"]
   0 -> 2 [style=solid label="'b'"]
   0 -> 3 [style=solid label="'c'"]
@@ -373,7 +418,7 @@ empty_b: %prec 'b';
 empty_c: %prec 'c';
 ]],
 [[
-  0 [label="State 0\n\l  0 $accept: . start $end\l  1 start: . 'a'\l  2      | . empty_a 'a'\l  3      | . 'b'\l  4      | . empty_b 'b'\l  5      | . 'c'\l  6      | . empty_c 'c'\l  7 empty_a: .  ['a']\l  8 empty_b: .  []\l  9 empty_c: .  []\l"]
+  0 [label="State 0\n\l  0 $accept: . start $end\l  1 start: . 'a'\l  2      | . empty_a 'a'\l  3      | . 'b'\l  4      | . empty_b 'b'\l  5      | . 'c'\l  6      | . empty_c 'c'\l  7 empty_a: . %empty  ['a']\l  8 empty_b: . %empty  []\l  9 empty_c: . %empty  []\l"]
   0 -> 1 [style=solid label="'b'"]
   0 -> 2 [style=solid label="'c'"]
   0 -> 3 [style=dashed label="start"]
@@ -421,7 +466,7 @@ a: ;
 b: ;
 ]],
 [[
-  0 [label="State 0\n\l  0 $accept: . exp $end\l  1 exp: . a\l  2    | . b\l  3 a: .  [$end]\l  4 b: .  [$end]\l"]
+  0 [label="State 0\n\l  0 $accept: . exp $end\l  1 exp: . a\l  2    | . b\l  3 a: . %empty  [$end]\l  4 b: . %empty  [$end]\l"]
   0 -> 1 [style=dashed label="exp"]
   0 -> 2 [style=dashed label="a"]
   0 -> 3 [style=dashed label="b"]
@@ -454,7 +499,7 @@ b: ;
 c: ;
 ]],
 [[
-  0 [label="State 0\n\l  0 $accept: . exp $end\l  1 exp: . a ';'\l  2    | . a ';'\l  3    | . a '.'\l  4    | . b '?'\l  5    | . b '!'\l  6    | . c '?'\l  7    | . c ';'\l  8 a: .  [';', '.']\l  9 b: .  ['?', '!']\l 10 c: .  [';', '?']\l"]
+  0 [label="State 0\n\l  0 $accept: . exp $end\l  1 exp: . a ';'\l  2    | . a ';'\l  3    | . a '.'\l  4    | . b '?'\l  5    | . b '!'\l  6    | . c '?'\l  7    | . c ';'\l  8 a: . %empty  [';', '.']\l  9 b: . %empty  ['?', '!']\l 10 c: . %empty  [';', '?']\l"]
   0 -> 1 [style=dashed label="exp"]
   0 -> 2 [style=dashed label="a"]
   0 -> 3 [style=dashed label="b"]
@@ -569,7 +614,7 @@ imm: '0';
  "11R7d" [label="R7", fillcolor=5, shape=diamond, style=filled]
   11 -> "11R7" [style=solid]
  "11R7" [label="R7", fillcolor=3, shape=diamond, style=filled]
-  12 [label="State 12\n\l  4 ifexp: \"if\" exp \"then\" exp . elseexp\l  5 elseexp: . \"else\" exp\l  6        | .  [$end, \"then\", \"else\", '+']\l  7 opexp: exp . '+' exp\l"]
+  12 [label="State 12\n\l  4 ifexp: \"if\" exp \"then\" exp . elseexp\l  5 elseexp: . \"else\" exp\l  6        | . %empty  [$end, \"then\", \"else\", '+']\l  7 opexp: exp . '+' exp\l"]
   12 -> 13 [style=solid label="\"else\""]
   12 -> 9 [style=solid label="'+'"]
   12 -> 14 [style=dashed label="elseexp"]

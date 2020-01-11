@@ -1,6 +1,6 @@
 /* Locations for Bison
 
-   Copyright (C) 2002, 2004-2012 Free Software Foundation, Inc.
+   Copyright (C) 2002, 2004-2015 Free Software Foundation, Inc.
 
    This file is part of Bison, the GNU Compiler Compiler.
 
@@ -19,6 +19,10 @@
 
 #ifndef LOCATION_H_
 # define LOCATION_H_
+
+# include <stdbool.h>
+# include <stdio.h>
+# include <string.h> /* strcmp */
 
 # include "uniqstr.h"
 
@@ -73,8 +77,8 @@ static inline bool
 equal_boundaries (boundary a, boundary b)
 {
   return (a.column == b.column
-	  && a.line == b.line
-	  && UNIQSTR_EQ (a.file, b.file));
+          && a.line == b.line
+          && UNIQSTR_EQ (a.file, b.file));
 }
 
 /* A location, that is, a region of source code.  */
@@ -88,26 +92,27 @@ typedef struct
 
 } location;
 
-#define GRAM_LTYPE location
+# define GRAM_LTYPE location
 
-#define EMPTY_LOCATION_INIT {{NULL, 0, 0}, {NULL, 0, 0}}
+# define EMPTY_LOCATION_INIT {{NULL, 0, 0}, {NULL, 0, 0}}
 extern location const empty_location;
 
 /* Set *LOC and adjust scanner cursor to account for token TOKEN of
    size SIZE.  */
 void location_compute (location *loc,
-		       boundary *cur, char const *token, size_t size);
+                       boundary *cur, char const *token, size_t size);
 
-/* Print location to file. Return number of actually printed
-   characters.  */
-unsigned location_print (FILE *out, location loc);
+/* Print location to file.
+   Return number of actually printed characters.
+   Warning: uses quotearg's slot 3. */
+unsigned location_print (location loc, FILE *out);
 
 /* Free any allocated ressources and close any open file handles that are
    left-over by the usage of location_caret.  */
 void cleanup_caret (void);
 
 /* Output to OUT the line and caret corresponding to location LOC.  */
-void location_caret (FILE *out, location loc);
+void location_caret (location loc, FILE *out);
 
 /* Return -1, 0, 1, depending whether a is before, equal, or
    after b.  */
@@ -120,7 +125,7 @@ location_cmp (location a, location b)
   return res;
 }
 
-/* LOC_STR must be formatted as `file:line.column', it will be modified.  */
+/* LOC_STR must be formatted as 'file:line.column', it will be modified.  */
 void boundary_set_from_string (boundary *bound, char *loc_str);
 
 #endif /* ! defined LOCATION_H_ */

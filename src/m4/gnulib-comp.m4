@@ -1,5 +1,5 @@
 # DO NOT EDIT! GENERATED AUTOMATICALLY!
-# Copyright (C) 2002-2012 Free Software Foundation, Inc.
+# Copyright (C) 2002-2015 Free Software Foundation, Inc.
 #
 # This file is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -39,6 +39,8 @@ AC_DEFUN([gl_EARLY],
   m4_pattern_allow([^gl_LTLIBOBJS$])dnl a variable
   AC_REQUIRE([gl_PROG_AR_RANLIB])
   AC_REQUIRE([AM_PROG_CC_C_O])
+  # Code from module absolute-header:
+  # Code from module alignof:
   # Code from module alloca-opt:
   # Code from module announce-gen:
   # Code from module argmatch:
@@ -53,6 +55,7 @@ AC_DEFUN([gl_EARLY],
   # Code from module close:
   # Code from module close-stream:
   # Code from module closeout:
+  # Code from module concat-filename:
   # Code from module config-h:
   # Code from module configmake:
   # Code from module dirname:
@@ -74,6 +77,7 @@ AC_DEFUN([gl_EARLY],
   # Code from module fd-hook:
   # Code from module fd-safer-flag:
   # Code from module fdl:
+  # Code from module filename:
   # Code from module float:
   # Code from module fopen:
   # Code from module fopen-safer:
@@ -87,13 +91,12 @@ AC_DEFUN([gl_EARLY],
   # Code from module fseterr:
   # Code from module fstat:
   # Code from module gendocs:
-  # Code from module getdelim:
   # Code from module getdtablesize:
-  # Code from module getline:
   # Code from module getopt-gnu:
   # Code from module getopt-posix:
   # Code from module gettext:
   # Code from module gettext-h:
+  # Code from module gettimeofday:
   # Code from module git-version-gen:
   # Code from module gitlog-to-changelog:
   # Code from module gnu-web-doc-update:
@@ -113,7 +116,6 @@ AC_DEFUN([gl_EARLY],
   # Code from module isnanf-nolibm:
   # Code from module isnanl:
   # Code from module isnanl-nolibm:
-  # Code from module iswblank:
   # Code from module javacomp-script:
   # Code from module javaexec-script:
   # Code from module largefile:
@@ -122,22 +124,20 @@ AC_DEFUN([gl_EARLY],
   # Code from module ldexpl:
   # Code from module localcharset:
   # Code from module lock:
+  # Code from module lstat:
   # Code from module maintainer-makefile:
   # Code from module malloc-gnu:
   # Code from module malloc-posix:
   # Code from module math:
-  # Code from module mbchar:
   # Code from module mbrtowc:
-  # Code from module mbschr:
   # Code from module mbsinit:
-  # Code from module mbsrchr:
   # Code from module mbswidth:
-  # Code from module mbuiter:
   # Code from module memchr:
   # Code from module msvc-inval:
   # Code from module msvc-nothrow:
   # Code from module multiarch:
   # Code from module nocrash:
+  # Code from module non-recursive-gnulib-prefix-hack:
   # Code from module obstack:
   # Code from module obstack-printf:
   # Code from module open:
@@ -200,10 +200,9 @@ AC_DEFUN([gl_EARLY],
   # Code from module string:
   # Code from module strndup:
   # Code from module strnlen:
-  # Code from module strnlen1:
-  # Code from module strtoul:
   # Code from module strverscmp:
   # Code from module sys_stat:
+  # Code from module sys_time:
   # Code from module sys_types:
   # Code from module sys_wait:
   # Code from module threadlib:
@@ -214,6 +213,7 @@ AC_DEFUN([gl_EARLY],
   # Code from module unitypes:
   # Code from module uniwidth/base:
   # Code from module uniwidth/width:
+  # Code from module unlink:
   # Code from module unlocked-io:
   # Code from module unsetenv:
   # Code from module update-copyright:
@@ -234,6 +234,7 @@ AC_DEFUN([gl_EARLY],
   # Code from module xalloc:
   # Code from module xalloc-die:
   # Code from module xalloc-oversized:
+  # Code from module xconcat-filename:
   # Code from module xmemdup0:
   # Code from module xsize:
   # Code from module xstrndup:
@@ -318,7 +319,7 @@ AC_DEFUN([gl_INIT],
   gl_STDIO_MODULE_INDICATOR([fopen])
   gl_MODULE_INDICATOR([fopen-safer])
   gl_FUNC_FPENDING
-  if test $ac_cv_func___fpending = no; then
+  if test $gl_cv_func___fpending = no; then
     AC_LIBOBJ([fpending])
     gl_PREREQ_FPENDING
   fi
@@ -344,24 +345,12 @@ AC_DEFUN([gl_INIT],
     gl_PREREQ_FSTAT
   fi
   gl_SYS_STAT_MODULE_INDICATOR([fstat])
-  gl_FUNC_GETDELIM
-  if test $HAVE_GETDELIM = 0 || test $REPLACE_GETDELIM = 1; then
-    AC_LIBOBJ([getdelim])
-    gl_PREREQ_GETDELIM
-  fi
-  gl_STDIO_MODULE_INDICATOR([getdelim])
   gl_FUNC_GETDTABLESIZE
-  if test $HAVE_GETDTABLESIZE = 0; then
+  if test $HAVE_GETDTABLESIZE = 0 || test $REPLACE_GETDTABLESIZE = 1; then
     AC_LIBOBJ([getdtablesize])
     gl_PREREQ_GETDTABLESIZE
   fi
   gl_UNISTD_MODULE_INDICATOR([getdtablesize])
-  gl_FUNC_GETLINE
-  if test $REPLACE_GETLINE = 1; then
-    AC_LIBOBJ([getline])
-    gl_PREREQ_GETLINE
-  fi
-  gl_STDIO_MODULE_INDICATOR([getline])
   gl_FUNC_GETOPT_GNU
   if test $REPLACE_GETOPT = 1; then
     AC_LIBOBJ([getopt])
@@ -385,6 +374,12 @@ AC_DEFUN([gl_INIT],
   AM_GNU_GETTEXT_VERSION([0.18.1])
   AC_SUBST([LIBINTL])
   AC_SUBST([LTLIBINTL])
+  gl_FUNC_GETTIMEOFDAY
+  if test $HAVE_GETTIMEOFDAY = 0 || test $REPLACE_GETTIMEOFDAY = 1; then
+    AC_LIBOBJ([gettimeofday])
+    gl_PREREQ_GETTIMEOFDAY
+  fi
+  gl_SYS_TIME_MODULE_INDICATOR([gettimeofday])
   # Autoconf 2.61a.99 and earlier don't support linking a file only
   # in VPATH builds.  But since GNUmakefile is for maintainer use
   # only, it does not matter if we skip the link with older autoconf.
@@ -441,15 +436,6 @@ AC_DEFUN([gl_INIT],
     AC_LIBOBJ([isnanl])
     gl_PREREQ_ISNANL
   fi
-  gl_FUNC_ISWBLANK
-  if test $HAVE_ISWCNTRL = 0 || test $REPLACE_ISWCNTRL = 1; then
-    :
-  else
-    if test $HAVE_ISWBLANK = 0 || test $REPLACE_ISWBLANK = 1; then
-      AC_LIBOBJ([iswblank])
-    fi
-  fi
-  gl_WCTYPE_MODULE_INDICATOR([iswblank])
   # You need to invoke gt_JAVACOMP yourself, possibly with arguments.
   AC_CONFIG_FILES([javacomp.sh:build-aux/javacomp.sh.in])
   # You need to invoke gt_JAVAEXEC yourself, possibly with arguments.
@@ -465,8 +451,16 @@ AC_DEFUN([gl_INIT],
   LOCALCHARSET_TESTS_ENVIRONMENT="CHARSETALIASDIR=\"\$(abs_top_builddir)/$gl_source_base\""
   AC_SUBST([LOCALCHARSET_TESTS_ENVIRONMENT])
   gl_LOCK
+  gl_MODULE_INDICATOR([lock])
+  gl_FUNC_LSTAT
+  if test $REPLACE_LSTAT = 1; then
+    AC_LIBOBJ([lstat])
+    gl_PREREQ_LSTAT
+  fi
+  gl_SYS_STAT_MODULE_INDICATOR([lstat])
   AC_CONFIG_COMMANDS_PRE([m4_ifdef([AH_HEADER],
     [AC_SUBST([CONFIG_INCLUDE], m4_defn([AH_HEADER]))])])
+  AC_REQUIRE([AC_PROG_SED])
   gl_FUNC_MALLOC_GNU
   if test $REPLACE_MALLOC = 1; then
     AC_LIBOBJ([malloc])
@@ -478,23 +472,19 @@ AC_DEFUN([gl_INIT],
   fi
   gl_STDLIB_MODULE_INDICATOR([malloc-posix])
   gl_MATH_H
-  gl_MBCHAR
   gl_FUNC_MBRTOWC
   if test $HAVE_MBRTOWC = 0 || test $REPLACE_MBRTOWC = 1; then
     AC_LIBOBJ([mbrtowc])
     gl_PREREQ_MBRTOWC
   fi
   gl_WCHAR_MODULE_INDICATOR([mbrtowc])
-  gl_STRING_MODULE_INDICATOR([mbschr])
   gl_FUNC_MBSINIT
   if test $HAVE_MBSINIT = 0 || test $REPLACE_MBSINIT = 1; then
     AC_LIBOBJ([mbsinit])
     gl_PREREQ_MBSINIT
   fi
   gl_WCHAR_MODULE_INDICATOR([mbsinit])
-  gl_STRING_MODULE_INDICATOR([mbsrchr])
   gl_MBSWIDTH
-  gl_MBITER
   gl_FUNC_MEMCHR
   if test $HAVE_MEMCHR = 0 || test $REPLACE_MEMCHR = 1; then
     AC_LIBOBJ([memchr])
@@ -510,6 +500,11 @@ AC_DEFUN([gl_INIT],
     AC_LIBOBJ([msvc-nothrow])
   fi
   gl_MULTIARCH
+  dnl Run our hack near the end, just before config.status creation.
+  dnl It must happen late, i.e., after gl_LIBOBJS has been finalized.
+  AC_CONFIG_COMMANDS_PRE([
+    gl_NON_RECURSIVE_GNULIB_PREFIX_HACK([lib])
+    ])
   AC_FUNC_OBSTACK
   dnl Note: AC_FUNC_OBSTACK does AC_LIBSOURCES([obstack.h, obstack.c]).
   gl_FUNC_OBSTACK_PRINTF
@@ -700,10 +695,6 @@ AC_DEFUN([gl_INIT],
     gl_PREREQ_STRNLEN
   fi
   gl_STRING_MODULE_INDICATOR([strnlen])
-  gl_FUNC_STRTOUL
-  if test $ac_cv_func_strtoul = no; then
-    AC_LIBOBJ([strtoul])
-  fi
   gl_FUNC_STRVERSCMP
   if test $HAVE_STRVERSCMP = 0; then
     AC_LIBOBJ([strverscmp])
@@ -711,6 +702,8 @@ AC_DEFUN([gl_INIT],
   fi
   gl_STRING_MODULE_INDICATOR([strverscmp])
   gl_HEADER_SYS_STAT_H
+  AC_PROG_MKDIR_P
+  gl_HEADER_SYS_TIME_H
   AC_PROG_MKDIR_P
   gl_SYS_TYPES_H
   AC_PROG_MKDIR_P
@@ -720,9 +713,14 @@ AC_DEFUN([gl_INIT],
   gl_HEADER_TIME_H
   gl_UNISTD_H
   gl_UNISTD_SAFER
-  gl_LIBUNISTRING_LIBHEADER([0.9], [unitypes.h])
-  gl_LIBUNISTRING_LIBHEADER([0.9], [uniwidth.h])
-  gl_LIBUNISTRING_MODULE([0.9.4], [uniwidth/width])
+  gl_LIBUNISTRING_LIBHEADER([0.9.4], [unitypes.h])
+  gl_LIBUNISTRING_LIBHEADER([0.9.4], [uniwidth.h])
+  gl_LIBUNISTRING_MODULE([0.9.5], [uniwidth/width])
+  gl_FUNC_UNLINK
+  if test $REPLACE_UNLINK = 1; then
+    AC_LIBOBJ([unlink])
+  fi
+  gl_UNISTD_MODULE_INDICATOR([unlink])
   gl_FUNC_GLIBC_UNLOCKED_IO
   gl_FUNC_UNSETENV
   if test $HAVE_UNSETENV = 0 || test $REPLACE_UNSETENV = 1; then
@@ -905,6 +903,7 @@ AC_DEFUN([gl_FILE_LIST], [
   build-aux/gnupload
   build-aux/javacomp.sh.in
   build-aux/javaexec.sh.in
+  build-aux/prefix-gnulib-mk
   build-aux/snippet/_Noreturn.h
   build-aux/snippet/arg-nonnull.h
   build-aux/snippet/c++defs.h
@@ -914,7 +913,9 @@ AC_DEFUN([gl_FILE_LIST], [
   build-aux/vc-list-files
   doc/fdl.texi
   doc/gendocs_template
+  doc/gendocs_template_min
   doc/gpl-3.0.texi
+  lib/alignof.h
   lib/alloca.in.h
   lib/argmatch.c
   lib/argmatch.h
@@ -939,6 +940,8 @@ AC_DEFUN([gl_FILE_LIST], [
   lib/close.c
   lib/closeout.c
   lib/closeout.h
+  lib/concat-filename.c
+  lib/concat-filename.h
   lib/config.charset
   lib/dirname-lgpl.c
   lib/dirname.c
@@ -960,6 +963,7 @@ AC_DEFUN([gl_FILE_LIST], [
   lib/fd-hook.h
   lib/fd-safer-flag.c
   lib/fd-safer.c
+  lib/filename.h
   lib/float+.h
   lib/float.c
   lib/float.in.h
@@ -974,14 +978,13 @@ AC_DEFUN([gl_FILE_LIST], [
   lib/fseterr.c
   lib/fseterr.h
   lib/fstat.c
-  lib/getdelim.c
   lib/getdtablesize.c
-  lib/getline.c
   lib/getopt.c
   lib/getopt.in.h
   lib/getopt1.c
   lib/getopt_int.h
   lib/gettext.h
+  lib/gettimeofday.c
   lib/glthread/lock.c
   lib/glthread/lock.h
   lib/glthread/threadlib.c
@@ -996,24 +999,18 @@ AC_DEFUN([gl_FILE_LIST], [
   lib/isnanf.c
   lib/isnanl-nolibm.h
   lib/isnanl.c
-  lib/iswblank.c
   lib/itold.c
   lib/ldexpl.c
   lib/localcharset.c
   lib/localcharset.h
+  lib/lstat.c
   lib/malloc.c
   lib/math.c
   lib/math.in.h
-  lib/mbchar.c
-  lib/mbchar.h
   lib/mbrtowc.c
-  lib/mbschr.c
   lib/mbsinit.c
-  lib/mbsrchr.c
   lib/mbswidth.c
   lib/mbswidth.h
-  lib/mbuiter.c
-  lib/mbuiter.h
   lib/memchr.c
   lib/memchr.valgrind
   lib/msvc-inval.c
@@ -1083,7 +1080,6 @@ AC_DEFUN([gl_FILE_LIST], [
   lib/stdio--.h
   lib/stdio-impl.h
   lib/stdio-safer.h
-  lib/stdio.c
   lib/stdio.in.h
   lib/stdlib.in.h
   lib/stpcpy.c
@@ -1099,12 +1095,9 @@ AC_DEFUN([gl_FILE_LIST], [
   lib/stripslash.c
   lib/strndup.c
   lib/strnlen.c
-  lib/strnlen1.c
-  lib/strnlen1.h
-  lib/strtol.c
-  lib/strtoul.c
   lib/strverscmp.c
   lib/sys_stat.in.h
+  lib/sys_time.in.h
   lib/sys_types.in.h
   lib/sys_wait.in.h
   lib/time.in.h
@@ -1116,6 +1109,7 @@ AC_DEFUN([gl_FILE_LIST], [
   lib/uniwidth.in.h
   lib/uniwidth/cjk.h
   lib/uniwidth/width.c
+  lib/unlink.c
   lib/unlocked-io.h
   lib/unsetenv.c
   lib/vasnprintf.c
@@ -1135,6 +1129,7 @@ AC_DEFUN([gl_FILE_LIST], [
   lib/xalloc-die.c
   lib/xalloc-oversized.h
   lib/xalloc.h
+  lib/xconcat-filename.c
   lib/xmalloc.c
   lib/xmemdup0.c
   lib/xmemdup0.h
@@ -1143,6 +1138,7 @@ AC_DEFUN([gl_FILE_LIST], [
   lib/xstrndup.c
   lib/xstrndup.h
   m4/00gnulib.m4
+  m4/absolute-header.m4
   m4/alloca.m4
   m4/asm-underscore.m4
   m4/assert.m4
@@ -1177,11 +1173,10 @@ AC_DEFUN([gl_FILE_LIST], [
   m4/frexpl.m4
   m4/fseterr.m4
   m4/fstat.m4
-  m4/getdelim.m4
   m4/getdtablesize.m4
-  m4/getline.m4
   m4/getopt.m4
   m4/gettext.m4
+  m4/gettimeofday.m4
   m4/glibc2.m4
   m4/glibc21.m4
   m4/gnulib-common.m4
@@ -1200,7 +1195,6 @@ AC_DEFUN([gl_FILE_LIST], [
   m4/isnand.m4
   m4/isnanf.m4
   m4/isnanl.m4
-  m4/iswblank.m4
   m4/javacomp.m4
   m4/javaexec.m4
   m4/largefile.m4
@@ -1217,10 +1211,9 @@ AC_DEFUN([gl_FILE_LIST], [
   m4/locale-zh.m4
   m4/lock.m4
   m4/longlong.m4
+  m4/lstat.m4
   m4/malloc.m4
   m4/math_h.m4
-  m4/mbchar.m4
-  m4/mbiter.m4
   m4/mbrtowc.m4
   m4/mbsinit.m4
   m4/mbstate_t.m4
@@ -1233,7 +1226,9 @@ AC_DEFUN([gl_FILE_LIST], [
   m4/multiarch.m4
   m4/nls.m4
   m4/nocrash.m4
+  m4/non-recursive-gnulib-prefix-hack.m4
   m4/obstack-printf.m4
+  m4/obstack.m4
   m4/off_t.m4
   m4/open.m4
   m4/pathmax.m4
@@ -1281,10 +1276,10 @@ AC_DEFUN([gl_FILE_LIST], [
   m4/string_h.m4
   m4/strndup.m4
   m4/strnlen.m4
-  m4/strtoul.m4
   m4/strverscmp.m4
   m4/sys_socket_h.m4
   m4/sys_stat_h.m4
+  m4/sys_time_h.m4
   m4/sys_types_h.m4
   m4/sys_wait_h.m4
   m4/threadlib.m4
@@ -1292,6 +1287,7 @@ AC_DEFUN([gl_FILE_LIST], [
   m4/uintmax_t.m4
   m4/unistd-safer.m4
   m4/unistd_h.m4
+  m4/unlink.m4
   m4/unlocked-io.m4
   m4/vasnprintf.m4
   m4/vfprintf-posix.m4

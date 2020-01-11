@@ -1,6 +1,6 @@
 # Sanity test a C compiler.
 
-# Copyright (C) 2006, 2009-2012 Free Software Foundation, Inc.
+# Copyright (C) 2006, 2009-2015 Free Software Foundation, Inc.
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -21,7 +21,7 @@ AC_DEFUN([BISON_TEST_FOR_WORKING_C_COMPILER], [
   AC_COMPILE_IFELSE(
     [AC_LANG_PROGRAM(
        [[#include <limits.h>
-	 int test_array[CHAR_BIT];]])],
+         int test_array[CHAR_BIT];]])],
     [],
     [AC_MSG_FAILURE([cannot compile a simple C program])])
    AC_SUBST([BISON_C_WORKS], [:])

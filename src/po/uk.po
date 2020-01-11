@@ -3,13 +3,13 @@
 # This file is distributed under the same license as the bison package.
 #
 # Maxim V. Dziumanenko <dziumanenko@gmail.com>, 2007.
-# Yuri Chornoivan <yurchor@ukr.net>, 2012.
+# Yuri Chornoivan <yurchor@ukr.net>, 2012, 2013.
 msgid ""
 msgstr ""
-"Project-Id-Version: bison 2.6.90\n"
+"Project-Id-Version: bison 2.7.90\n"
 "Report-Msgid-Bugs-To: bug-bison@gnu.org\n"
-"POT-Creation-Date: 2012-12-12 16:09+0100\n"
-"PO-Revision-Date: 2012-12-08 18:21+0200\n"
+"POT-Creation-Date: 2015-01-23 13:55+0100\n"
+"PO-Revision-Date: 2013-05-30 22:18+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <translation-team-uk@lists.sourceforge.net>\n"
 "Language: uk\n"
@@ -20,18 +20,37 @@ msgstr ""
 "%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2\n"
 "X-Generator: Lokalize 1.5\n"
 
-#: src/complain.c:120 src/complain.c:131 src/complain.c:140 src/complain.c:188
-#: src/complain.c:198
-msgid "warning"
-msgstr "попередження"
+#: src/complain.c:322
+msgid "fatal error"
+msgstr "критична помилка: "
 
-#: src/complain.c:151 src/complain.c:160 src/complain.c:167
+#: src/complain.c:323
 msgid "error"
 msgstr "помилка"
 
-#: src/complain.c:208 src/complain.c:215
-msgid "fatal error"
-msgstr "критична помилка: "
+#: src/complain.c:324
+msgid "warning"
+msgstr "попередження"
+
+#: src/complain.c:387
+#, c-format
+msgid "deprecated directive, use %s"
+msgstr "застаріла інструкція, скористайтеся %s"
+
+#: src/complain.c:391
+#, c-format
+msgid "deprecated directive: %s, use %s"
+msgstr "застаріла інструкція: %s, скористайтеся %s"
+
+#: src/complain.c:400
+#, c-format
+msgid "only one %s allowed per rule"
+msgstr "у правилі допускається лише один %s"
+
+#: src/complain.c:402 src/reader.c:140 src/symtab.c:253 src/symtab.c:266
+#, c-format
+msgid "previous declaration"
+msgstr "попереднє оголошення"
 
 #: src/conflicts.c:77
 #, c-format
@@ -41,92 +60,102 @@ msgstr "    Конфлікт між правилом %d та лексемою %s
 #: src/conflicts.c:86
 #, c-format
 msgid "    Conflict between rule %d and token %s resolved as reduce"
-msgstr "    Конфлікт між правилом %d та лексемою %s розв'язаний виводу"
+msgstr "    Конфлікт між правилом %d та лексемою %s розв'язаний виводом"
 
 #: src/conflicts.c:94
 #, c-format
 msgid "    Conflict between rule %d and token %s resolved as an error"
 msgstr "    Конфлікт між правилом %d та лексемою %s розв'язаний як помилка"
 
-#: src/conflicts.c:492
-#, c-format
-msgid "conflicts: %d shift/reduce, %d reduce/reduce\n"
-msgstr "конфлікти: %d зсуву/виводу, %d виводу/виводу\n"
-
-#: src/conflicts.c:495
-#, c-format
-msgid "conflicts: %d shift/reduce\n"
-msgstr "конфлікти: %d зсуву/виводу\n"
-
-#: src/conflicts.c:497
-#, c-format
-msgid "conflicts: %d reduce/reduce\n"
-msgstr "конфлікти: %d виводу/виводу\n"
-
-#: src/conflicts.c:515
+#: src/conflicts.c:530
 #, c-format
 msgid "State %d "
 msgstr "Стан %d "
 
-#: src/conflicts.c:582
+#: src/conflicts.c:533
+#, c-format
+msgid "conflicts: %d shift/reduce, %d reduce/reduce\n"
+msgstr "конфлікти: %d зсуву/виводу, %d виводу/виводу\n"
+
+#: src/conflicts.c:536
+#, c-format
+msgid "conflicts: %d shift/reduce\n"
+msgstr "конфлікти: %d зсуву/виводу\n"
+
+#: src/conflicts.c:538
+#, c-format
+msgid "conflicts: %d reduce/reduce\n"
+msgstr "конфлікти: %d виводу/виводу\n"
+
+#: src/conflicts.c:569
 #, c-format
 msgid "%%expect-rr applies only to GLR parsers"
 msgstr "%%expect-rr застосовується лише до аналізатору GLR"
 
-#: src/conflicts.c:616
+#: src/conflicts.c:586
 #, c-format
-msgid "expected %d shift/reduce conflict"
-msgid_plural "expected %d shift/reduce conflicts"
-msgstr[0] "очікувався %d конфлікт зсуву/виводу"
-msgstr[1] "очікувалося %d конфлікти зсуву/виводу"
-msgstr[2] "очікувалося %d конфліктів зсуву/виводу"
-msgstr[3] "очікувався %d конфлікт зсуву/виводу"
+msgid "shift/reduce conflicts: %d found, %d expected"
+msgstr "конфлікти зсуву/виводу: виявлено: %d, мало бути: %d"
 
-#: src/conflicts.c:621
+#: src/conflicts.c:591
 #, c-format
-msgid "expected %d reduce/reduce conflict"
-msgid_plural "expected %d reduce/reduce conflicts"
-msgstr[0] "очікувався %d конфлікт виводу/виводу"
-msgstr[1] "очікувалося %d конфлікти виводу/виводу"
-msgstr[2] "очікувалося %d конфліктів виводу/виводу"
-msgstr[3] "очікувався %d конфлікт виводу/виводу"
+msgid "%d shift/reduce conflict"
+msgid_plural "%d shift/reduce conflicts"
+msgstr[0] "%d конфлікт зсуву/виводу"
+msgstr[1] "%d конфлікти зсуву/виводу"
+msgstr[2] "%d конфліктів зсуву/виводу"
+msgstr[3] "%d конфлікт зсуву/виводу"
 
-#: src/files.c:114
+#: src/conflicts.c:608
+#, c-format
+msgid "reduce/reduce conflicts: %d found, %d expected"
+msgstr "конфлікти виводу/виводу: виявлено: %d, мало бути: %d"
+
+#: src/conflicts.c:613
+#, c-format
+msgid "%d reduce/reduce conflict"
+msgid_plural "%d reduce/reduce conflicts"
+msgstr[0] "%d конфлікт виводу/виводу"
+msgstr[1] "%d конфлікти виводу/виводу"
+msgstr[2] "%d конфліктів виводу/виводу"
+msgstr[3] "%d конфлікт виводу/виводу"
+
+#: src/files.c:123
 #, c-format
 msgid "%s: cannot open"
 msgstr "%s: не вдалося відкрити"
 
-#: src/files.c:130
+#: src/files.c:139
 #, c-format
 msgid "input/output error"
 msgstr "помилка введення-виведення"
 
-#: src/files.c:133
+#: src/files.c:142
 #, c-format
 msgid "cannot close file"
 msgstr "не вдається закрити файл"
 
-#: src/files.c:352
+#: src/files.c:372
 #, c-format
 msgid "refusing to overwrite the input file %s"
 msgstr "відмовлено у перезаписі файла вхідних даних %s"
 
-#: src/files.c:362
+#: src/files.c:382
 #, c-format
 msgid "conflicting outputs to file %s"
 msgstr "суперечливий вивід у файл %s"
 
-#: src/getargs.c:292
+#: src/getargs.c:252
 #, c-format
-msgid "Try `%s --help' for more information.\n"
-msgstr "Використовуйте `%s --help' для додаткової інформації.\n"
+msgid "Try '%s --help' for more information.\n"
+msgstr "Віддайте команду «%s --help», щоб дізнатися більше.\n"
 
-#: src/getargs.c:301
+#: src/getargs.c:261
 #, c-format
 msgid "Usage: %s [OPTION]... FILE\n"
 msgstr "Використання: %s [КЛЮЧІ]... ФАЙЛ\n"
 
-#: src/getargs.c:302
+#: src/getargs.c:262
 msgid ""
 "Generate a deterministic LR or generalized LR (GLR) parser employing\n"
 "LALR(1), IELR(1), or canonical LR(1) parser tables.  IELR(1) and\n"
@@ -138,18 +167,18 @@ msgstr ""
 "IELR(1) та канонічних таблиць LR(1) ще недостатньо перевірено.\n"
 "\n"
 
-#: src/getargs.c:309
+#: src/getargs.c:269
 msgid ""
 "Mandatory arguments to long options are mandatory for short options too.\n"
 msgstr ""
 "Обов’язкові аргументи для довгих форм запису параметрів є обов’язковими і "
 "для скорочених форм.\n"
 
-#: src/getargs.c:312
+#: src/getargs.c:272
 msgid "The same is true for optional arguments.\n"
 msgstr "Те саме стосується необов’язкових аргументів.\n"
 
-#: src/getargs.c:316
+#: src/getargs.c:276
 msgid ""
 "\n"
 "Operation modes:\n"
@@ -177,13 +206,14 @@ msgstr ""
 "  -f, --feature[=МОЖЛИВІСТЬ] задіяти різноманітні можливості\n"
 "\n"
 
-#: src/getargs.c:329
+#: src/getargs.c:289
 #, c-format
 msgid ""
 "Parser:\n"
 "  -L, --language=LANGUAGE          specify the output programming language\n"
 "  -S, --skeleton=FILE              specify the skeleton to use\n"
-"  -t, --debug                      instrument the parser for debugging\n"
+"  -t, --debug                      instrument the parser for tracing\n"
+"                                   same as '-Dparse.trace'\n"
 "      --locations                  enable location support\n"
 "  -D, --define=NAME[=VALUE]        similar to '%define NAME \"VALUE\"'\n"
 "  -F, --force-define=NAME[=VALUE]  override '%define NAME \"VALUE\"'\n"
@@ -195,20 +225,20 @@ msgstr ""
 "Аналізатор:\n"
 "  -L, --language=МОВА              вказати мову програмування виведених "
 "даних\n"
-"                                   (недостатньо перевірена можливість)\n"
 "  -S, --skeleton=ФАЙЛ              вказати шаблон, який слід використати\n"
 "  -t, --debug                      налаштувати аналізатор для діагностики\n"
+"                                   те саме, що і «-Dparse.trace»\n"
 "      --locations                  увімкнути підтримку місць\n"
-"  -D, --define=НАЗВА[=ЗНАЧЕННЯ]    відповідник `%define НАЗВА \"ЗНАЧЕННЯ\"'\n"
-"  -F, --force-define=НАЗВА[=ЗНАЧЕННЯ] перевизначити `%define НАЗВА \"ЗНАЧЕННЯ"
-"\"'\n"
+"  -D, --define=НАЗВА[=ЗНАЧЕННЯ]    відповідник «%define НАЗВА \"ЗНАЧЕННЯ\"»\n"
+"  -F, --force-define=НАЗВА[=ЗНАЧЕННЯ] перевизначити «%define НАЗВА \"ЗНАЧЕННЯ"
+"\"»\n"
 "  -p, --name-prefix=ПРЕФІКС        додавати ПРЕФІКС до зовнішніх символів,\n"
-"                                   слід надавати перевагу '-Dapi."
-"prefix=ПРЕФІКС'\n"
-"  -l, --no-lines                   не створювати інструкцій `#line'\n"
+"                                   слід надавати перевагу «-Dapi."
+"prefix=ПРЕФІКС»\n"
+"  -l, --no-lines                   не створювати інструкцій «#line»\n"
 "  -k, --token-table                включити таблицю назв елементів\n"
 
-#: src/getargs.c:346
+#: src/getargs.c:307
 msgid ""
 "Output:\n"
 "      --defines[=FILE]       also produce a header file\n"
@@ -216,7 +246,7 @@ msgid ""
 "Yacc)\n"
 "  -r, --report=THINGS        also produce details on the automaton\n"
 "      --report-file=FILE     write report to FILE\n"
-"  -v, --verbose              same as `--report=state'\n"
+"  -v, --verbose              same as '--report=state'\n"
 "  -b, --file-prefix=PREFIX   specify a PREFIX for output files\n"
 "  -o, --output=FILE          leave output to FILE\n"
 "  -g, --graph[=FILE]         also output a graph of the automaton\n"
@@ -229,83 +259,88 @@ msgstr ""
 "Yacc POSIX)\n"
 "  -r, --report=ЕЛЕМЕНТИ      також створити автоматичні записи подробиць\n"
 "      --report-file=ФАЙЛ     записати звіт до ФАЙЛа\n"
-"  -v, --verbose              те саме, що і `--report=state'\n"
+"  -v, --verbose              те саме, що і «--report=state»\n"
 "  -b, --file-prefix=ПРЕФІКС  вказати ПРЕФІКС файла результатів\n"
 "  -o, --output=ФАЙЛ          вивести дані до ФАЙЛа\n"
 "  -g, --graph[=ФАЙЛ]         вивести граф автомата\n"
 "  -x, --xml[=ФАЙЛ]           вивести звіт автомата у форматі XML\n"
 "                             (схему XML перевірено недостатньо)\n"
 
-#: src/getargs.c:361
+#: src/getargs.c:322
+#, c-format
 msgid ""
 "Warning categories include:\n"
-"  `midrule-values'  unset or unused midrule values\n"
-"  `yacc'            incompatibilities with POSIX Yacc\n"
-"  `conflicts-sr'    S/R conflicts (enabled by default)\n"
-"  `conflicts-rr'    R/R conflicts (enabled by default)\n"
-"  `deprecated'      obsolete constructs\n"
-"  `other'           all other warnings (enabled by default)\n"
-"  `all'             all the warnings\n"
-"  `no-CATEGORY'     turn off warnings in CATEGORY\n"
-"  `none'            turn off all the warnings\n"
-"  `error'           treat warnings as errors\n"
+"  'midrule-values'    unset or unused midrule values\n"
+"  'yacc'              incompatibilities with POSIX Yacc\n"
+"  'conflicts-sr'      S/R conflicts (enabled by default)\n"
+"  'conflicts-rr'      R/R conflicts (enabled by default)\n"
+"  'deprecated'        obsolete constructs\n"
+"  'empty-rule'        empty rules without %empty\n"
+"  'precedence'        useless precedence and associativity\n"
+"  'other'             all other warnings (enabled by default)\n"
+"  'all'               all the warnings except 'yacc'\n"
+"  'no-CATEGORY'       turn off warnings in CATEGORY\n"
+"  'none'              turn off all the warnings\n"
+"  'error[=CATEGORY]'  treat warnings as errors\n"
 msgstr ""
 "Категорії попереджень:\n"
-"  `midrule-values'  невстановлені або невикористані проміжні значення\n"
-"  `yacc'            несумісності з Yacc POSIX\n"
-"  `conflicts-sr'    S/R-конфлікти (типово увімкнено)\n"
-"  `conflicts-rr'    R/R conflicts (типово увімкнено)\n"
-"  `deprecated'      застарілі конструкції\n"
-"  `other'           всі інші попередження (типово увімкнено)\n"
-"  `all'             всі попередження\n"
-"  `no-КАТЕГОРІЯ'    вимкнути попередження з КАТЕГОРІЇ\n"
-"  `none'            вимкнути всі попередження\n"
-"  `error'           вважати попередження помилками\n"
+"  «midrule-values»  невстановлені або невикористані проміжні значення\n"
+"  «yacc»            несумісності з Yacc POSIX\n"
+"  «conflicts-sr»    S/R-конфлікти (типово увімкнено)\n"
+"  «conflicts-rr»    R/R conflicts (типово увімкнено)\n"
+"  «deprecated»      застарілі конструкції\n"
+"  «empty-rule»      порожні правила без %empty\n"
+"  'precedence'      непотрібні пріоритетності та прив’язки\n"
+"  «other»           всі інші попередження (типово увімкнено)\n"
+"  «all»             всі попередження\n"
+"  «no-КАТЕГОРІЯ»    вимкнути попередження з КАТЕГОРІЇ\n"
+"  «none»            вимкнути всі попередження\n"
+"  «error»           вважати попередження помилками\n"
 "\n"
 
-#: src/getargs.c:376
+#: src/getargs.c:339
 msgid ""
 "THINGS is a list of comma separated words that can include:\n"
-"  `state'        describe the states\n"
-"  `itemset'      complete the core item sets with their closure\n"
-"  `lookahead'    explicitly associate lookahead tokens to items\n"
-"  `solved'       describe shift/reduce conflicts solving\n"
-"  `all'          include all the above information\n"
-"  `none'         disable the report\n"
+"  'state'        describe the states\n"
+"  'itemset'      complete the core item sets with their closure\n"
+"  'lookahead'    explicitly associate lookahead tokens to items\n"
+"  'solved'       describe shift/reduce conflicts solving\n"
+"  'all'          include all the above information\n"
+"  'none'         disable the report\n"
 msgstr ""
 "THINGS - список розділених комою слів, які можуть включати:\n"
-"  `state'        описує стани\n"
-"  `itemset'      завершити набір елементів ядра та закрити їх\n"
-"  `lookahead'    явна прив'язати ознаки lookahead до елементів\n"
-"  `solved'       описати вирішення конфліктів зсуву/виводу\n"
-"  `all'          включати всю наведену вище інформацію\n"
-"  `none'         вимкнути звіт\n"
+"  «state»        описує стани\n"
+"  «itemset»      завершити набір елементів ядра та закрити їх\n"
+"  «lookahead»    явна прив'язати ознаки lookahead до елементів\n"
+"  «solved»       описати вирішення конфліктів зсуву/виводу\n"
+"  «all»          включати всю наведену вище інформацію\n"
+"  «none»         вимкнути звіт\n"
 
-#: src/getargs.c:387
+#: src/getargs.c:350
 msgid ""
 "FEATURE is a list of comma separated words that can include:\n"
-"  `caret'        show errors with carets\n"
-"  `all'          all of the above\n"
-"  `none'         disable all of the above\n"
+"  'caret'        show errors with carets\n"
+"  'all'          all of the above\n"
+"  'none'         disable all of the above\n"
 "  "
 msgstr ""
 "МОЖЛИВІСТЬ — список слів, відокремлених комами. Можливі слова:\n"
-"  `caret'        показати помилки, пов’язані з символами ^\n"
-"  `all'          всі, вказані вище\n"
-"  `none'         вимкнути, всі вказані вище\n"
+"  «caret»        показати помилки, пов’язані з символами ^\n"
+"  «all»          всі вказані вище\n"
+"  «none»         вимкнути всі вказані вище\n"
 "  "
 
-#: src/getargs.c:395
+#: src/getargs.c:358
 #, c-format
 msgid "Report bugs to <%s>.\n"
 msgstr "Сповіщайте про помилки за адресою <%s>.\n"
 
-#: src/getargs.c:396
+#: src/getargs.c:359
 #, c-format
 msgid "%s home page: <%s>.\n"
 msgstr "Домашня сторінка %s: <%s>.\n"
 
-#: src/getargs.c:397
+#: src/getargs.c:360
 msgid "General help using GNU software: <http://www.gnu.org/gethelp/>.\n"
 msgstr ""
 "Загальна довідка щодо використання програмного забезпечення GNU: <http://www."
@@ -316,32 +351,32 @@ msgstr ""
 #. form one of the URLs at http://translationproject.org/team/.
 #. Otherwise, replace the entire URL with your translation team's
 #. email address.
-#: src/getargs.c:410
+#: src/getargs.c:373
 msgid "Report translation bugs to <http://translationproject.org/team/>.\n"
 msgstr ""
 "Звіти щодо вад у перекладах слід надсилати за адресами, вказаними тут: "
 "<http://translationproject.org/team/>.\n"
 
-#: src/getargs.c:412
+#: src/getargs.c:375
 msgid "For complete documentation, run: info bison.\n"
 msgstr ""
 "З повною документацією можна ознайомитися за допомогою команди info bison.\n"
 
-#: src/getargs.c:428
+#: src/getargs.c:391
 #, c-format
 msgid "bison (GNU Bison) %s"
 msgstr "bison (GNU Bison) %s"
 
-#: src/getargs.c:430
+#: src/getargs.c:393
 msgid "Written by Robert Corbett and Richard Stallman.\n"
 msgstr "Автори: Роберт Корбет та Річард Столмен.\n"
 
-#: src/getargs.c:434
+#: src/getargs.c:397
 #, c-format
 msgid "Copyright (C) %d Free Software Foundation, Inc.\n"
 msgstr "Copyright (C) %d Free Software Foundation, Inc.\n"
 
-#: src/getargs.c:437
+#: src/getargs.c:400
 msgid ""
 "This is free software; see the source for copying conditions.  There is NO\n"
 "warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n"
@@ -352,35 +387,31 @@ msgstr ""
 "гарантій працездатності\n"
 "або придатності для певної мети.\n"
 
-#: src/getargs.c:458
+#: src/getargs.c:422
 #, c-format
 msgid "multiple skeleton declarations are invalid"
 msgstr "не можна використовувати декілька оголошень шаблонів"
 
-#: src/getargs.c:476
+#: src/getargs.c:440
 #, c-format
 msgid "%s: invalid language"
 msgstr "%s: некоректна мова"
 
-#: src/getargs.c:479
+#: src/getargs.c:443
 msgid "multiple language declarations are invalid"
 msgstr "визначення декількох оголошень мов є некоректним"
 
-#: src/getargs.c:747
+#: src/getargs.c:724
 #, c-format
 msgid "%s: missing operand"
 msgstr "%s: пропущено операнд"
 
-#: src/getargs.c:749
+#: src/getargs.c:726
 #, c-format
 msgid "extra operand %s"
 msgstr "зайвий операнд %s"
 
-#: src/gram.c:112
-msgid "empty"
-msgstr "порожній"
-
-#: src/gram.c:201
+#: src/gram.c:185
 msgid "Grammar"
 msgstr "Граматика"
 
@@ -397,7 +428,7 @@ msgstr ""
 "// Домашня сторінка: <%s>.\n"
 "\n"
 
-#: src/location.c:93 src/scan-gram.l:859
+#: src/location.c:93 src/scan-gram.l:932
 #, c-format
 msgid "line number overflow"
 msgstr "переповнення номеру рядка"
@@ -411,37 +442,37 @@ msgstr "переповнення номеру стовпчика"
 msgid "rule useless in parser due to conflicts"
 msgstr "правило є зайвим у аналізаторі через конфлікти"
 
-#: src/muscle-tab.c:450
+#: src/muscle-tab.c:514
 #, c-format
 msgid "%%define variable %s redefined"
 msgstr "змінну %%define %s перевизначено"
 
-#: src/muscle-tab.c:453
+#: src/muscle-tab.c:518
+#, c-format
 msgid "previous definition"
 msgstr "попереднє визначення"
 
-#: src/muscle-tab.c:490 src/muscle-tab.c:504 src/muscle-tab.c:556
-#: src/muscle-tab.c:624
+#: src/muscle-tab.c:568 src/muscle-tab.c:669 src/muscle-tab.c:732
 #, c-format
 msgid "%s: undefined %%define variable %s"
 msgstr "%s: невизначена змінна %%define %s"
 
-#: src/muscle-tab.c:550
+#: src/muscle-tab.c:663
 #, c-format
 msgid "invalid value for %%define Boolean variable %s"
 msgstr "некоректне значення булевої змінної %%define %s"
 
-#: src/muscle-tab.c:609
+#: src/muscle-tab.c:717
 #, c-format
 msgid "invalid value for %%define variable %s: %s"
 msgstr "некоректне значення змінної %%define %s: %s"
 
-#: src/muscle-tab.c:613
+#: src/muscle-tab.c:722
 #, c-format
 msgid "accepted value: %s"
 msgstr "прийняте значення: %s"
 
-#: src/parse-gram.y:747
+#: src/parse-gram.y:811
 #, c-format
 msgid "missing identifier in parameter declaration"
 msgstr "у описі параметра відсутній ідентифікатор"
@@ -451,58 +482,58 @@ msgstr "у описі параметра відсутній ідентифіка
 msgid " type %d is %s\n"
 msgstr " тип %d є %s\n"
 
-#: src/print.c:164
+#: src/print.c:167
 #, c-format
 msgid "shift, and go to state %d\n"
 msgstr "зсув, та перехід у стан %d\n"
 
-#: src/print.c:166
+#: src/print.c:169
 #, c-format
 msgid "go to state %d\n"
 msgstr "перехід у стан %d\n"
 
-#: src/print.c:203
+#: src/print.c:206
 msgid "error (nonassociative)\n"
 msgstr "помилка (не асоціативна)\n"
 
-#: src/print.c:226
+#: src/print.c:229
 #, c-format
 msgid "reduce using rule %d (%s)"
 msgstr "вивід з використанням правила %d (%s)"
 
-#: src/print.c:228
+#: src/print.c:231
 #, c-format
 msgid "accept"
 msgstr "прийняти"
 
-#: src/print.c:264 src/print.c:338
+#: src/print.c:267 src/print.c:341
 msgid "$default"
 msgstr "$default"
 
-#: src/print.c:373 src/print_graph.c:78
+#: src/print.c:377 src/print_graph.c:61
 #, c-format
 msgid "State %d"
 msgstr "Стан %d"
 
-#: src/print.c:409
+#: src/print.c:413
 msgid "Terminals, with rules where they appear"
 msgstr "Термінальні символи з правилами, у яких вони з'являються"
 
-#: src/print.c:436
+#: src/print.c:440
 msgid "Nonterminals, with rules where they appear"
 msgstr "Нетермінальні символи з правилами, у яких вони з'являються"
 
-#: src/print.c:465
+#: src/print.c:469
 #, c-format
 msgid " on left:"
 msgstr " ліворуч:"
 
-#: src/print.c:482
+#: src/print.c:486
 #, c-format
 msgid " on right:"
 msgstr " праворуч:"
 
-#: src/print.c:510
+#: src/print.c:514
 msgid "Rules useless in parser due to conflicts"
 msgstr "Правила є зайвими у аналізаторі через конфлікти"
 
@@ -516,67 +547,68 @@ msgstr "багатократні описи %s"
 msgid "result type clash on merge function %s: <%s> != <%s>"
 msgstr "конфлікт типів результатів під час об’єднання функції %s: <%s> != <%s>"
 
-#: src/reader.c:139 src/symtab.c:156 src/symtab.c:166 src/symtab.c:938
-#: src/symtab.c:953 src/symtab.c:968 src/symtab.c:983
-msgid "previous declaration"
-msgstr "попереднє оголошення"
-
-#: src/reader.c:205
+#: src/reader.c:206
 #, c-format
 msgid "duplicated symbol name for %s ignored"
 msgstr "проігноровано дублікат назви символу %s"
 
-#: src/reader.c:249
+#: src/reader.c:250
 #, c-format
 msgid "rule given for %s, which is a token"
 msgstr "правило задано для %s, який є лексемою"
 
-#: src/reader.c:304
+#: src/reader.c:306
 #, c-format
 msgid "type clash on default action: <%s> != <%s>"
 msgstr "конфлікт типів на типовій дії: <%s> != <%s>"
 
-#: src/reader.c:310
+#: src/reader.c:312
 #, c-format
 msgid "empty rule for typed nonterminal, and no action"
 msgstr ""
 "порожнє правило для типізованого нетермінального символу, та відсутня дія"
 
-#: src/reader.c:328
+#: src/reader.c:329
 #, c-format
 msgid "unused value: $%d"
 msgstr "не використане значення: $%d"
 
-#: src/reader.c:330
+#: src/reader.c:331
+#, c-format
 msgid "unset value: $$"
 msgstr "не встановлене значення: $$"
 
-#: src/reader.c:341
+#: src/reader.c:340
+#, c-format
+msgid "%%empty on non-empty rule"
+msgstr "%%empty у непорожньому правилі"
+
+#: src/reader.c:346
+#, c-format
+msgid "empty rule without %%empty"
+msgstr "порожнє правило без %%empty"
+
+#: src/reader.c:355
 #, c-format
 msgid "token for %%prec is not defined: %s"
 msgstr "елемент %%prec не визначено: %s"
 
-#: src/reader.c:431 src/reader.c:445 src/reader.c:458
-#, c-format
-msgid "only one %s allowed per rule"
-msgstr "у правилі допускається лише один %s"
-
-#: src/reader.c:441 src/reader.c:456
+#: src/reader.c:473 src/reader.c:495
 #, c-format
 msgid "%s affects only GLR parsers"
 msgstr "%s впливає лише на аналізатори GLR"
 
-#: src/reader.c:443
+#: src/reader.c:476
 #, c-format
 msgid "%s must be followed by positive number"
 msgstr "за %s повинно слідувати додатне число"
 
-#: src/reader.c:554
+#: src/reader.c:602
 #, c-format
 msgid "rule is too long"
 msgstr "правило надто довге"
 
-#: src/reader.c:672
+#: src/reader.c:718
 #, c-format
 msgid "no rules in the input grammar"
 msgstr "відсутні правила у вхідній граматиці"
@@ -585,24 +617,24 @@ msgstr "відсутні правила у вхідній граматиці"
 msgid "rule useless in grammar"
 msgstr "зайве правило у граматиці"
 
-#: src/reduce.c:302
+#: src/reduce.c:303
 #, c-format
 msgid "nonterminal useless in grammar: %s"
 msgstr "нетермінал є зайвим у граматиці: %s"
 
-#: src/reduce.c:350
+#: src/reduce.c:351
 msgid "Nonterminals useless in grammar"
 msgstr "Нетермінали зайві у граматиці"
 
-#: src/reduce.c:363
+#: src/reduce.c:364
 msgid "Terminals unused in grammar"
 msgstr "Невикористані термінали у граматиці"
 
-#: src/reduce.c:372
+#: src/reduce.c:373
 msgid "Rules useless in grammar"
 msgstr "Зайві правила у граматиці"
 
-#: src/reduce.c:385
+#: src/reduce.c:386
 #, c-format
 msgid "%d nonterminal useless in grammar"
 msgid_plural "%d nonterminals useless in grammar"
@@ -611,7 +643,7 @@ msgstr[1] "%d зайві нетермінали у граматиці"
 msgstr[2] "%d зайвих нетерміналів у граматиці"
 msgstr[3] "%d зайвий нетермінал у граматиці"
 
-#: src/reduce.c:390
+#: src/reduce.c:391
 #, c-format
 msgid "%d rule useless in grammar"
 msgid_plural "%d rules useless in grammar"
@@ -620,129 +652,114 @@ msgstr[1] "%d зайві правила у граматиці"
 msgstr[2] "%d зайвих правил у граматиці"
 msgstr[3] "%d зайве правило у граматиці"
 
-#: src/reduce.c:419
+#: src/reduce.c:420
 #, c-format
 msgid "start symbol %s does not derive any sentence"
 msgstr "початковий символ %s не виводить жодного речення"
 
-#: src/scan-code.l:188
+#: src/scan-code.l:157
 #, c-format
 msgid "stray '%s'"
 msgstr "зайвий символ '%s'"
 
-#: src/scan-code.l:229
-msgid "a ';' might be needed at the end of action code"
-msgstr "наприкінці коду дії можливо потрібен символ ';'"
-
-#: src/scan-code.l:232
-msgid "future versions of Bison will not add the ';'"
-msgstr "у майбутніх версіях Bison символ ';' не додаватиметься"
-
-#: src/scan-code.l:254
-#, c-format
-msgid "use of YYFAIL, which is deprecated and will be removed"
-msgstr ""
-"використання YYFAIL. Вважається застарілим, буде вилучено у наступних "
-"версіях."
-
-#: src/scan-code.l:431 src/scan-code.l:434
+#: src/scan-code.l:339
 #, c-format
 msgid "refers to: %c%s at %s"
 msgstr "посилається на: %c%s у %s"
 
-#: src/scan-code.l:450
+#: src/scan-code.l:362
 #, c-format
 msgid "possibly meant: %c"
 msgstr "ймовірно мало бути: %c"
 
-#: src/scan-code.l:459
+#: src/scan-code.l:371
 #, c-format
 msgid ", hiding %c"
 msgstr ", приховування %c"
 
-#: src/scan-code.l:467
+#: src/scan-code.l:379
 #, c-format
 msgid " at %s"
 msgstr " у %s"
 
-#: src/scan-code.l:472
+#: src/scan-code.l:383
 #, c-format
 msgid ", cannot be accessed from mid-rule action at $%d"
 msgstr ", доступ з дії проміжного правила неможливий у $%d"
 
-#: src/scan-code.l:521 src/scan-gram.l:783
+#: src/scan-code.l:440 src/scan-gram.l:855
 #, c-format
 msgid "integer out of range: %s"
 msgstr "вихід за межі діапазону цілого числа: %s"
 
-#: src/scan-code.l:610
+#: src/scan-code.l:530
 #, c-format
 msgid "invalid reference: %s"
 msgstr "некоректне посилання: %s"
 
-#: src/scan-code.l:619
+#: src/scan-code.l:538
 #, c-format
 msgid "syntax error after '%c', expecting integer, letter, '_', '[', or '$'"
 msgstr ""
 "синтаксична помилка після '%c'. Мало бути вказано ціле число, літеру, '_', "
 "'[' або '$'"
 
-#: src/scan-code.l:626
+#: src/scan-code.l:544
 #, c-format
 msgid "symbol not found in production before $%d: %.*s"
 msgstr "у продукції не знайдено символу до $%d: %.*s"
 
-#: src/scan-code.l:633
+#: src/scan-code.l:549
 #, c-format
 msgid "symbol not found in production: %.*s"
 msgstr "у продукції не знайдено символу: %.*s"
 
-#: src/scan-code.l:648
+#: src/scan-code.l:564
 #, c-format
 msgid "misleading reference: %s"
 msgstr "помилкове посилання: %s"
 
-#: src/scan-code.l:663
+#: src/scan-code.l:580
 #, c-format
 msgid "ambiguous reference: %s"
 msgstr "неоднозначне посилання: %s"
 
-#: src/scan-code.l:700
+#: src/scan-code.l:616
 #, c-format
 msgid "explicit type given in untyped grammar"
 msgstr "у нетипізованій граматиці явним чином вказано тип"
 
-#: src/scan-code.l:759
+#: src/scan-code.l:675
 #, c-format
 msgid "$$ for the midrule at $%d of %s has no declared type"
 msgstr "$$ для проміжного правила у $%d %s немає оголошеного типу"
 
-#: src/scan-code.l:764
+#: src/scan-code.l:681
 #, c-format
 msgid "$$ of %s has no declared type"
 msgstr "$$ %s не має оголошеного типу"
 
-#: src/scan-code.l:786
+#: src/scan-code.l:703
 #, c-format
 msgid "$%s of %s has no declared type"
 msgstr "$%s %s не має оголошеного типу"
 
-#: src/scan-gram.l:149
+#: src/scan-gram.l:186
 #, c-format
 msgid "stray ',' treated as white space"
 msgstr "зайва кома, вважатиметься пробілом"
 
-#: src/scan-gram.l:222
+#: src/scan-gram.l:276
 #, c-format
 msgid "invalid directive: %s"
 msgstr "некоректна директива: %s"
 
-#: src/scan-gram.l:250
+#: src/scan-gram.l:302
 #, c-format
 msgid "invalid identifier: %s"
 msgstr "некоректний ідентифікатор: %s"
 
-#: src/scan-gram.l:295
+#: src/scan-gram.l:354
 msgid "invalid character"
 msgid_plural "invalid characters"
 msgstr[0] "некоректні символи"
@@ -750,17 +767,22 @@ msgstr[1] "некоректні символи"
 msgstr[2] "некоректні символи"
 msgstr[3] "некоректний символ"
 
-#: src/scan-gram.l:354
+#: src/scan-gram.l:372
+#, c-format
+msgid "invalid null character"
+msgstr "неприпустимий null-символ"
+
+#: src/scan-gram.l:425
 #, c-format
 msgid "unexpected identifier in bracketed name: %s"
 msgstr "неочікуваний ідентифікатор у назву у дужках: %s"
 
-#: src/scan-gram.l:376
+#: src/scan-gram.l:447
 #, c-format
 msgid "an identifier expected"
 msgstr "мало бути вказано ідентифікатор"
 
-#: src/scan-gram.l:381
+#: src/scan-gram.l:452
 msgid "invalid character in bracketed name"
 msgid_plural "invalid characters in bracketed name"
 msgstr[0] "некоректні символи у назві у дужках"
@@ -768,151 +790,146 @@ msgstr[1] "некоректні символи у назві у дужках"
 msgstr[2] "некоректні символи у назві у дужках"
 msgstr[3] "некоректний символ у назві у дужках"
 
-#: src/scan-gram.l:481 src/scan-gram.l:502
+#: src/scan-gram.l:544
 #, c-format
 msgid "empty character literal"
 msgstr "порожня символьна стала"
 
-#: src/scan-gram.l:486 src/scan-gram.l:507
+#: src/scan-gram.l:550
 #, c-format
 msgid "extra characters in character literal"
 msgstr "зайві символи у символьній сталій"
 
-#: src/scan-gram.l:518
-#, c-format
-msgid "invalid null character"
-msgstr "неприпустимий null-символ"
-
-#: src/scan-gram.l:531 src/scan-gram.l:541 src/scan-gram.l:561
+#: src/scan-gram.l:596 src/scan-gram.l:606 src/scan-gram.l:626
 #, c-format
 msgid "invalid number after \\-escape: %s"
 msgstr "некоректне число після екранування \\: %s"
 
-#: src/scan-gram.l:573
+#: src/scan-gram.l:638
 #, c-format
 msgid "invalid character after \\-escape: %s"
 msgstr "некоректний символ після екранування \\: %s"
 
-#: src/scan-gram.l:901
+#: src/scan-gram.l:984
 #, c-format
 msgid "missing %s at end of file"
 msgstr "не вистачає %s наприкінці файла"
 
-#: src/scan-gram.l:912
+#: src/scan-gram.l:995
 #, c-format
 msgid "missing %s at end of line"
 msgstr "не вистачає %s наприкінці рядка"
 
-#: src/scan-skel.l:146
+#: src/scan-skel.l:139
 #, c-format
 msgid "unclosed %s directive in skeleton"
 msgstr "незавершена інструкція %s у шаблоні"
 
-#: src/scan-skel.l:291
+#: src/scan-skel.l:256
 #, c-format
 msgid "too few arguments for %s directive in skeleton"
 msgstr "занадто мало аргументів у інструкції %s шаблона"
 
-#: src/scan-skel.l:298
+#: src/scan-skel.l:263
 #, c-format
 msgid "too many arguments for %s directive in skeleton"
 msgstr "занадто багато аргументів у інструкції %s шаблона"
 
-#: src/symlist.c:211
-#, c-format
-msgid "invalid $ value: $%d"
-msgstr "некоректне $ значення: $%d"
-
-#: src/symtab.c:71
+#: src/symtab.c:75
 #, c-format
 msgid "POSIX Yacc forbids dashes in symbol names: %s"
 msgstr "Yacc POSIX забороняє використання дефісів у назва символів: %s"
 
-#: src/symtab.c:91
+#: src/symtab.c:97
 #, c-format
 msgid "too many symbols in input grammar (limit is %d)"
 msgstr "надто багато символів (лексеми плюс нетермінали); максимально %d"
 
-#: src/symtab.c:154
+#: src/symtab.c:250
 #, c-format
 msgid "%s redeclaration for %s"
 msgstr "повторний опис %s для %s"
 
-#: src/symtab.c:164
+#: src/symtab.c:263
 #, c-format
 msgid "%s redeclaration for <%s>"
 msgstr "повторний опис %s для <%s>"
 
-#: src/symtab.c:332
+#: src/symtab.c:392
 #, c-format
 msgid "symbol %s redefined"
 msgstr "повторне визначення символу %s"
 
-#: src/symtab.c:346
+#: src/symtab.c:407
 #, c-format
 msgid "symbol %s redeclared"
 msgstr "символ %s визначений повторно"
 
-#: src/symtab.c:367
+#: src/symtab.c:429
 #, c-format
 msgid "redefining user token number of %s"
 msgstr "перевизначення номера лексеми користувача для %s"
 
-#: src/symtab.c:395
+#: src/symtab.c:459
 #, c-format
 msgid "symbol %s is used, but is not defined as a token and has no rules"
 msgstr ""
 "символ %s використовується, але не визначений як лексема та не має правил"
 
-#: src/symtab.c:415
+#: src/symtab.c:497
+#, c-format
+msgid "useless %s for type <%s>"
+msgstr "непотрібне %s для типу <%s>"
+
+#: src/symtab.c:502
+#, c-format
+msgid "type <%s> is used, but is not associated to any symbol"
+msgstr "використано тип <%s>, але його не пов’язано з жодним символом"
+
+#: src/symtab.c:527
 #, c-format
 msgid "symbol %s used more than once as a literal string"
 msgstr "символ %s використано декілька разів як сталий рядок символів"
 
-#: src/symtab.c:418
+#: src/symtab.c:530
 #, c-format
 msgid "symbol %s given more than one literal string"
 msgstr "символ %s вказано декілька сталих рядків (літералів)"
 
-#: src/symtab.c:535
+#: src/symtab.c:629
 #, c-format
 msgid "user token number %d redeclaration for %s"
 msgstr "повторне оголошення елемента користувача з номером %d для %s"
 
-#: src/symtab.c:539
+#: src/symtab.c:633
 #, c-format
 msgid "previous declaration for %s"
 msgstr "попереднє оголошення %s"
 
-#: src/symtab.c:915
+#: src/symtab.c:1014
 #, c-format
 msgid "the start symbol %s is undefined"
 msgstr "початковий символ %s невизначений"
 
-#: src/symtab.c:919
+#: src/symtab.c:1018
 #, c-format
 msgid "the start symbol %s is a token"
 msgstr "початковий символ %s є лексемою"
 
-#: src/symtab.c:935
+#: src/symtab.c:1193
 #, c-format
-msgid "redeclaration for default tagged %%destructor"
-msgstr "повторне оголошення типового %%destructor з міткою"
+msgid "useless precedence and associativity for %s"
+msgstr "непотрібна пріоритетність або прив’язка для %s"
 
-#: src/symtab.c:950
+#: src/symtab.c:1196
 #, c-format
-msgid "redeclaration for default tagless %%destructor"
-msgstr "повторне оголошення типового %%destructor без мітки"
+msgid "useless precedence for %s"
+msgstr "непотрібна пріоритетність для %s"
 
-#: src/symtab.c:965
+#: src/symtab.c:1200
 #, c-format
-msgid "redeclaration for default tagged %%printer"
-msgstr "повторне оголошення типового %%printer з міткою"
-
-#: src/symtab.c:980
-#, c-format
-msgid "redeclaration for default tagless %%printer"
-msgstr "повторне оголошення типового %%printer без мітки"
+msgid "useless associativity for %s, use %%precedence"
+msgstr "непотрібна прив’язка для %s, скористайтеся %%precedence"
 
 #: djgpp/subpipe.c:63 djgpp/subpipe.c:286 djgpp/subpipe.c:288
 #, c-format
@@ -1068,7 +1085,7 @@ msgstr "не вдалося відкрити файл статистичних �
 msgid "write error"
 msgstr "помилка запису"
 
-#: lib/error.c:188
+#: lib/error.c:191
 msgid "Unknown system error"
 msgstr "Невідома системна помилка"
 
@@ -1127,17 +1144,17 @@ msgstr "%s: додавання аргументів до параметра «-W
 msgid "%s: option '-W %s' requires an argument\n"
 msgstr "%s: до параметра «-W %s» слід додати аргумент\n"
 
-#: lib/obstack.c:413 lib/obstack.c:415 lib/xalloc-die.c:34
+#: lib/obstack.c:338 lib/obstack.c:340 lib/xalloc-die.c:34
 msgid "memory exhausted"
 msgstr "пам'ять вичерпано"
 
-#: lib/spawn-pipe.c:140 lib/spawn-pipe.c:143 lib/spawn-pipe.c:264
-#: lib/spawn-pipe.c:267
+#: lib/spawn-pipe.c:135 lib/spawn-pipe.c:138 lib/spawn-pipe.c:259
+#: lib/spawn-pipe.c:262
 #, c-format
 msgid "cannot create pipe"
 msgstr "не вдалося створити канал"
 
-#: lib/spawn-pipe.c:234 lib/spawn-pipe.c:348 lib/wait-process.c:282
+#: lib/spawn-pipe.c:229 lib/spawn-pipe.c:343 lib/wait-process.c:282
 #: lib/wait-process.c:356
 #, c-format
 msgid "%s subprocess failed"
@@ -1208,6 +1225,35 @@ msgstr "Підпроцес %s"
 #, c-format
 msgid "%s subprocess got fatal signal %d"
 msgstr "Підпроцесом %s отримано сигнал щодо аварійного завершення %d"
+
+#~ msgid "invalid $ value: $%d"
+#~ msgstr "некоректне $ значення: $%d"
+
+#~ msgid "empty"
+#~ msgstr "порожній"
+
+#~ msgid "a ';' might be needed at the end of action code"
+#~ msgstr "наприкінці коду дії можливо потрібен символ ';'"
+
+#~ msgid "future versions of Bison will not add the ';'"
+#~ msgstr "у майбутніх версіях Bison символ ';' не додаватиметься"
+
+#~ msgid "use of YYFAIL, which is deprecated and will be removed"
+#~ msgstr ""
+#~ "використання YYFAIL. Вважається застарілим, буде вилучено у наступних "
+#~ "версіях."
+
+#~ msgid "redeclaration for default tagged %%destructor"
+#~ msgstr "повторне оголошення типового %%destructor з міткою"
+
+#~ msgid "redeclaration for default tagless %%destructor"
+#~ msgstr "повторне оголошення типового %%destructor без мітки"
+
+#~ msgid "redeclaration for default tagged %%printer"
+#~ msgstr "повторне оголошення типового %%printer з міткою"
+
+#~ msgid "redeclaration for default tagless %%printer"
+#~ msgstr "повторне оголошення типового %%printer без мітки"
 
 #~ msgid "state %d"
 #~ msgstr "стан %d"

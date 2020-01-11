@@ -1,17 +1,14 @@
 Summary: A GNU general-purpose parser generator
 Name: bison
-Version: 2.7
-Release: 4%{?dist}
+Version: 3.0.4
+Release: 1%{?dist}
 License: GPLv3+
 Group: Development/Tools
 Source: ftp://ftp.gnu.org/pub/gnu/bison/bison-%{version}.tar.xz
 
-# https://bugzilla.redhat.com/show_bug.cgi?id=948856
-# Submitted for upstream inclusion on 2013-05-17.
-Patch0: bison-2.7-unused-opts.patch
-
 # testsuite dependency
 BuildRequires: autoconf
+BuildRequires: flex
 
 URL: http://www.gnu.org/software/bison/
 BuildRoot: %{_tmppath}/%{name}-root
@@ -77,7 +74,6 @@ Bison manual section for more information.
 
 %prep
 %setup -q
-%patch0 -p1
 
 %build
 %configure
@@ -95,6 +91,18 @@ rm -rf $RPM_BUILD_ROOT
 rm -f $RPM_BUILD_ROOT/%{_bindir}/yacc
 rm -f $RPM_BUILD_ROOT/%{_infodir}/dir
 rm -f $RPM_BUILD_ROOT/%{_mandir}/man1/yacc*
+rm -f $RPM_BUILD_ROOT/%{_docdir}/%{name}/examples/calc++/*
+rm -f $RPM_BUILD_ROOT/%{_docdir}/%{name}/examples/mfcalc/*
+rm -f $RPM_BUILD_ROOT/%{_docdir}/%{name}/examples/rpcalc/*
+# These files are duplicated in bison and bison-{version}.
+# Remove the duplicates
+rm -f $RPM_BUILD_ROOT/%{_docdir}/%{name}/AUTHORS
+rm -f $RPM_BUILD_ROOT/%{_docdir}/%{name}/ChangeLog
+rm -f $RPM_BUILD_ROOT/%{_docdir}/%{name}/NEWS
+rm -f $RPM_BUILD_ROOT/%{_docdir}/%{name}/README
+rm -f $RPM_BUILD_ROOT/%{_docdir}/%{name}/THANKS
+rm -f $RPM_BUILD_ROOT/%{_docdir}/%{name}/TODO
+rm -f $RPM_BUILD_ROOT/%{_docdir}/%{name}/COPYING
 
 %find_lang %{name}
 %find_lang %{name}-runtime
@@ -136,6 +144,12 @@ fi
 rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Fri Jan 20 2017 Patsy Franklin <pfrankli@redhat.com> - 3.0.4-1
+- Rebase to 3.0.4
+  - Removed obsolete patch.
+  - Added build require of flex so that tests will run.
+  - Removed duplicate/unpackaged files.
+
 * Fri Jan 24 2014 Daniel Mach <dmach@redhat.com> - 2.7-4
 - Mass rebuild 2014-01-24
 
@@ -345,7 +359,7 @@ rm -rf $RPM_BUILD_ROOT
 * Wed Jan 09 2002 Tim Powers <timp@redhat.com>
 - automated rebuild
 
-* Mon Nov 27 2001 Than Ngo <than@redhat.com> 1.30-4
+* Tue Nov 27 2001 Than Ngo <than@redhat.com> 1.30-4
 - add missing Url
 
 * Sun Nov 25 2001 Than Ngo <than@redhat.com> 1.30-3

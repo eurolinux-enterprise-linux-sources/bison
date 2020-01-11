@@ -1,6 +1,6 @@
 /* Bitset vectors.
 
-   Copyright (C) 2001-2002, 2004, 2006, 2009-2012 Free Software
+   Copyright (C) 2001-2002, 2004, 2006, 2009-2015 Free Software
    Foundation, Inc.
 
    This program is free software: you can redistribute it and/or modify
@@ -56,7 +56,7 @@ bitsetv_matrix_dump (FILE * out, const char *title, bitsetv bset)
     {
       fprintf (out, "%2lu|", (unsigned long int) i);
       for (j = 0; j < hsize; ++j)
-	fputs (bitset_test (bset[i], j) ? "1" : " ", out);
+        fputs (bitset_test (bset[i], j) ? "1" : " ", out);
       fputs ("|\n", out);
     }
 

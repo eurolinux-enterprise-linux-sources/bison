@@ -30,7 +30,7 @@ not answer them, please send mail to <help-bison@gnu.org>.
 
 * Bug reports
 Please send bug reports to <bug-bison@gnu.org>.  Please include the
-version number from `bison --version', and a complete, self-contained
+version number from 'bison --version', and a complete, self-contained
 test case in each bug report.
 
 * Copyright statements
@@ -44,7 +44,7 @@ End:
 
 -----
 
-Copyright (C) 1992, 1998-1999, 2003-2005, 2008-2012 Free Software
+Copyright (C) 1992, 1998-1999, 2003-2005, 2008-2015 Free Software
 Foundation, Inc.
 
 This file is part of Bison, the GNU Compiler Compiler.
