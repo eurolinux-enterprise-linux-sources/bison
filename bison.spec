@@ -1,7 +1,7 @@
 Summary: A GNU general-purpose parser generator
 Name: bison
 Version: 3.0.4
-Release: 1%{?dist}
+Release: 2%{?dist}
 License: GPLv3+
 Group: Development/Tools
 Source: ftp://ftp.gnu.org/pub/gnu/bison/bison-%{version}.tar.xz
@@ -13,6 +13,7 @@ BuildRequires: flex
 URL: http://www.gnu.org/software/bison/
 BuildRoot: %{_tmppath}/%{name}-root
 BuildRequires: m4 >= 1.4
+BuildRequires: gcc-c++
 #java-1.7.0-openjdk-devel
 Requires: m4 >= 1.4
 Requires(post): /sbin/install-info
@@ -144,6 +145,9 @@ fi
 rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Thu Jul 12 2018 Patsy Franklin <pfrankli@redhat.com> - 3.0.4-2 
+- Build requires gcc-c++ for building from source. (#1600084)
+
 * Fri Jan 20 2017 Patsy Franklin <pfrankli@redhat.com> - 3.0.4-1
 - Rebase to 3.0.4
   - Removed obsolete patch.
