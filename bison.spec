@@ -1,7 +1,7 @@
 Summary: A GNU general-purpose parser generator
 Name: bison
 Version: 2.7
-Release: 2%{?dist}
+Release: 4%{?dist}
 License: GPLv3+
 Group: Development/Tools
 Source: ftp://ftp.gnu.org/pub/gnu/bison/bison-%{version}.tar.xz
@@ -136,6 +136,12 @@ fi
 rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Fri Jan 24 2014 Daniel Mach <dmach@redhat.com> - 2.7-4
+- Mass rebuild 2014-01-24
+
+* Fri Dec 27 2013 Daniel Mach <dmach@redhat.com> - 2.7-3
+- Mass rebuild 2013-12-27
+
 * Fri May 17 2013 Petr Machata <pmachata@redhat.com> - 2.7-2
 - Drop unused options --raw, -n, -e, --include and -I
 
